@@ -12,6 +12,7 @@ Use the simplest way to achieve the goal.
 1. [ ] scraping
     * [ ] how to scrape anything with `scrapy`
     * [ ] how to scrape what we want with `scrapy`
+      * [ ] how to scrape with `scrapy splash`
     * [ ] how to save it to a Postgresql DB
 1. [ ] HTTP server
     * [ ] how to implement a simple server in python
@@ -21,3 +22,13 @@ Use the simplest way to achieve the goal.
 1. [ ] docker
     * [ ] dockerize everything
     * [ ] docker compose
+
+
+## Assumptions
+
+* `scrapy` is installed
+
+
+## Findings and notes
+
+* sreality.cz relies heavily on javascript, which `scrapy` is unable to process on its own -> another tool needs to be used - `Scrapy Splash`
