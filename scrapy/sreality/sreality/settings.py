@@ -50,11 +50,9 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 DOWNLOADER_MIDDLEWARES = {
 #    "sreality.middlewares.SrealityDownloaderMiddleware": 543,
-    # 'sreality.RequestsHtmlMiddleware': 800
-    'scrapy_requests.middleware.RequestsMiddleware': 543,
+    'scrapy_requests.middleware.RequestsMiddleware': 800,
 }
 
 # Enable or disable extensions
