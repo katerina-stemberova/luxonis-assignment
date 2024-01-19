@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
-from sreality.spiders.flats import FlatsSpider
+from spiders.flats import FlatsSpider
 
 # Get the project settings
 settings = get_project_settings()
