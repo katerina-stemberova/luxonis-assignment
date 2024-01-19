@@ -14,7 +14,7 @@ Use the simplest way to achieve the goal.
     * [ ] scrape what we want with `scrapy`
       * [x] scrape dynamic pages with [requests-html](https://github.com/psf/requests-html) 
         * using [scrapy-requests](https://github.com/rafyzg/scrapy-requests) - `scrapy`'s middleware
-      * [ ] scrape multiple pages
+      * [x] scrape multiple pages
     * [x] how to save it to a Postgresql DB
       * [x] run the DB in a container
       * [x] connect to the DB using [psycopg2](https://github.com/psycopg/psycopg2)
@@ -22,7 +22,7 @@ Use the simplest way to achieve the goal.
 1. [ ] HTTP server
     * [ ] how to implement a simple server in python
     * [ ] how to display the scraped results
-      * diplay a webpage
+      * display a webpage
       * read stuff from DB and display it in a webpage
 1. [ ] docker
     * [ ] dockerize everything
@@ -59,4 +59,4 @@ scrapy is well documented and many tutorials exist, it is thus not too difficult
 
 Database
 
-Using PostgreSQL without previous knowledge can be tricky. The easiest approach was found to be avoiding the local installation and running it directly in a docker container. The trickiest part is setting up the user, password, and authorization mode right. The only auth mode that seemed to work was "trust", i.e., setting `POSTGRES_HOST_AUTH_METHOD=trust` as an env variable when running the container.
+Using PostgreSQL without previous knowledge can be tricky. The easiest approach was found to be avoiding the local installation and running it directly in a docker container. The trickiest part is setting up the user, password, and authorization mode right. The only auth mode that seemed to work was "trust", i.e., setting `POSTGRES_HOST_AUTH_METHOD=trust` as an env variable when running the container. When "trust" is used, password becomes unnecessary, but `psycopg2` complains if it isn't provided.

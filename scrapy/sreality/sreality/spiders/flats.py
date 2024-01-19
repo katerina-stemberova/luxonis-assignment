@@ -6,8 +6,14 @@ class FlatsSpider(scrapy.Spider):
     name = "flats"
     
     def start_requests(self):
-        # TODO: parse also following pages to get the desired 500 results
         urls = ["https://www.sreality.cz/hledani/prodej/byty"]
+
+        # generate all pages to scrape
+        # TODO: all pages to get the desired 500 results
+        # TODO: set lower limit for concurrent queries (default is 16 or so which is too much)
+        for i in range(2,4):
+            url = f"https://www.sreality.cz/hledani/prodej/byty?strana={i}"
+            urls.append(url)
 
         for url in urls:
             yield HtmlRequest(url=url, 
