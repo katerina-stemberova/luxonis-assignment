@@ -25,20 +25,15 @@ Use the simplest way to achieve the goal.
       * display a webpage
       * read stuff from DB and display it in a webpage
 1. [ ] docker
-    * [ ] dockerize everything
+    * [x] dockerize scrapy
     * [ ] docker compose
 
 
 ## Assumptions
 
-Python
-* `scrapy` is installed
-* `requests-html` is installed
-* `scrapy-requests` is installed
-* `psycopg2-binary` is installed
-
 Docker
-* postgres docker container is running locally (on 0.0.0.0:5432)
+* data in the DB is ephemeral, i.e. it is lost when the Postgres container stops
+
 
 ## Findings and notes
 
