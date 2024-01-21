@@ -5,6 +5,7 @@
 
 
 # useful for handling different item types with a single interface
+import psycopg2
 from itemadapter import ItemAdapter
 
 
@@ -13,14 +14,10 @@ class SrealityPipeline:
         return item
 
 
-
-import psycopg2
-
 class SaveToPostgresPipeline:
-
     def __init__(self):
         ## Connection Details
-        hostname = '0.0.0.0'
+        hostname = 'postgres'   # service name as defined in docker-compose.yml
         username = 'scrapy'
         password = 'scrapy'
         database = 'template1'
@@ -56,7 +53,7 @@ class SaveToPostgresPipeline:
 
         ## Execute insert of data into database
         self.connection.commit()
-        print("~~Inserted into DB:", item["title"], ",", item["url"])
+        print("INFO: Inserted into DB:", item["title"], ",", item["url"])
         return item
     
 
