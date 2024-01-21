@@ -63,7 +63,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/chrome.list
 
 # copy the scrapy project
-COPY scrapy/sreality/ scrapy/sreality/
+COPY sreality/ scrapy/sreality/
 
 # cd to the scrapy project dir
 WORKDIR /scrapy/sreality/sreality/
