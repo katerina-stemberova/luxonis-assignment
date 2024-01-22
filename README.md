@@ -19,20 +19,23 @@ Use the simplest way to achieve the goal.
       * [x] run the DB in a container
       * [x] connect to the DB using [psycopg2](https://github.com/psycopg/psycopg2)
       * [x] output the scraped results to the DB
-1. [ ] HTTP server
-    * [ ] how to implement a simple server in python
-    * [ ] how to display the scraped results
+1. [x] HTTP server
+    * [x] how to implement a simple server in python
+    * [x] how to display the scraped results
       * display a webpage
       * read stuff from DB and display it in a webpage
-1. [ ] docker
+1. [x] docker
     * [x] dockerize scrapy
-    * [ ] docker compose
+    * [x] docker compose
 
 
-## Assumptions
+## Assumptions and limitations
 
 Docker
 * data in the DB is ephemeral, i.e. it is lost when the Postgres container stops
+
+Flask
+* the HTTP server currently used is intended just for development
 
 
 ## Findings and notes
@@ -55,3 +58,18 @@ scrapy is well documented and many tutorials exist, it is thus not too difficult
 Database
 
 Using PostgreSQL without previous knowledge can be tricky. The easiest approach was found to be avoiding the local installation and running it directly in a docker container. The trickiest part is setting up the user, password, and authorization mode right. The only auth mode that seemed to work was "trust", i.e., setting `POSTGRES_HOST_AUTH_METHOD=trust` as an env variable when running the container. When "trust" is used, password becomes unnecessary, but `psycopg2` complains if it isn't provided.
+
+Containers
+
+When running scrapy in a container using a script, WORKDIR has to be set to the directory of the script, otherwise scrapy will just use default settings and not those from the project.
+
+Pyppeteer in the container was spitting out errors: "pyppeteer.errors.BrowserError: Browser closed unexpectedly". After consulting [SO](https://stackoverflow.com/questions/72006251/pyppeteer-and-docker-error-browser-closed-unexpectedly), the problem turned out to be missing Chromium requirements. When those were installed in the container, it started working.
+
+Postgres needs to have a static IP that will be known to scrapy in advance (at the time of docker build).
+Example of how to create it: https://stackoverflow.com/questions/27937185/assign-static-ip-to-docker-container
+
+^ containers need to be a part of the same network
+
+Flask
+
+The template file (html) needs to be stored in `templates` subfolder, otherwise Flask fails to find it.

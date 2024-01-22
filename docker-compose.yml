@@ -14,3 +14,13 @@ services:
       POSTGRES_PASSWORD: scrapy
       POSTGRES_HOST_AUTH_METHOD: trust
     container_name: postgres
+  
+  http-server:
+    build:
+      context: ./http_server
+    container_name: flask
+    ports:
+      - "8080:5000"
+    depends_on:
+      - postgres
+
