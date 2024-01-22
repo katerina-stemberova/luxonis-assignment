@@ -9,9 +9,9 @@ Use the simplest way to achieve the goal.
 
 ## Steps
 
-1. [ ] scraping - [scrapy](https://scrapy.org)
+1. [x] scraping - [scrapy](https://scrapy.org)
     * [x] how to scrape anything with `scrapy`
-    * [ ] scrape what we want with `scrapy`
+    * [x] scrape what we want with `scrapy`
       * [x] scrape dynamic pages with [requests-html](https://github.com/psf/requests-html) 
         * using [scrapy-requests](https://github.com/rafyzg/scrapy-requests) - `scrapy`'s middleware
       * [x] scrape multiple pages
@@ -30,6 +30,10 @@ Use the simplest way to achieve the goal.
 
 
 ## Assumptions and limitations
+
+Scrapy
+* number of pages processed on sreality.cz is not configurable (it's hardcoded to produce 500 results as per the assignment)
+* number of parallel requests is set to 4 (down from default 16) because it's quite resource intensive due to the need to render each page in the headless browser. This way it shouldn't kill the user's computer, but it takes about a minute to retrieve all data.
 
 Docker
 * data in the DB is ephemeral, i.e. it is lost when the Postgres container stops

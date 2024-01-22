@@ -9,17 +9,13 @@ class FlatsSpider(scrapy.Spider):
         urls = ["https://www.sreality.cz/hledani/prodej/byty"]
 
         # generate all pages to scrape
-        # TODO: all pages to get the desired 500 results
-        # TODO: set lower limit for concurrent queries (default is 16 or so which is too much)
-        for i in range(2,4):
+        for i in range(2,26):
             url = f"https://www.sreality.cz/hledani/prodej/byty?strana={i}"
             urls.append(url)
 
+        # process each url in the list
         for url in urls:
-            yield HtmlRequest(url=url, 
-                              callback=self.parse, 
-                              render=True, 
-                              options={'sleep': 1, 'wait': 5})
+            yield HtmlRequest(url=url, callback=self.parse, render=True, options={'sleep': 1, 'wait': 5})
 
     
     def parse(self, response):
