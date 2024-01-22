@@ -9,6 +9,7 @@ class FlatsSpider(scrapy.Spider):
         urls = ["https://www.sreality.cz/hledani/prodej/byty"]
 
         # generate all pages to scrape
+        # currently hardcoded to get 500 results in total
         for i in range(2,26):
             url = f"https://www.sreality.cz/hledani/prodej/byty?strana={i}"
             urls.append(url)
@@ -28,17 +29,12 @@ class FlatsSpider(scrapy.Spider):
         pic_elements = page.html.find("preact.ng-scope.ng-isolate-scope")
 
     
+        # return a generator for the scraped item
         for title, pic_element in zip(titles, pic_elements):
             img = pic_element.find("img[src]", first=True)
-            # TODO: what to do if there is no pic
-            # get() returns None
             img_url = img.attrs.get('src')
 
-            # return a generator for the scraped item
             yield {
-                # TODO: check encoding
-                # in 'scrapy crawl flats' ouput it appears a bit weird
-                # (only title, image_url is ok)
                 "title": title.text,
                 "url": img_url
             }

@@ -7,19 +7,32 @@ app = Flask(__name__)
 # what URL should trigger our function
 @app.route("/")
 def get_data():
-    # connect to the postgres DB
-    conn = psycopg2.connect(
-        host="postgres",
-        user="scrapy",
-        password="scrapy",
-        dbname="template1"
-    )
+    ## connection details
+    hostname = 'postgres'   # service name as defined in docker-compose.yml
+    username = 'scrapy'
+    password = 'scrapy'
+    database = 'template1'
+
+    # connect to the DB
+    try:
+        conn = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+    except:
+        print("ERROR: unable to connect to the database!")
+
     cursor = conn.cursor()
-    # get the data we are interested in...
-    cursor.execute("SELECT title, url FROM sreality")
-    data = cursor.fetchall()
-    cursor.close()
-    conn.close()
+
+    try:
+        # get the data we are interested in...
+        cursor.execute("SELECT title, url FROM sreality")
+    except Exception as e:
+        print("ERROR: retrieving data from DB failed!")
+        print(e)
+    else:
+        data = cursor.fetchall()
+    finally:
+        cursor.close()
+        conn.close()
+
     # ...and feed them to the webpage that will be displayed to the user
     # on localhost on port defined in docker-compose.yml
     return render_template('sreality_template.html', data=data)

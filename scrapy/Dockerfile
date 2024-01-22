@@ -1,12 +1,12 @@
 FROM python:3.11
 
-# install dependencies for scrapy
+# install dependencies for Scrapy
 RUN pip install scrapy \
     requests-html \
     scrapy-requests \
     psycopg2-binary
 
-# install dependencies for Pyppeteer/chromium
+# install dependencies for Pyppeteer/Chromium
 # (run by request-html, not installed automatically)
 RUN apt-get update && apt-get install -y gconf-service \
     libasound2 \
@@ -62,10 +62,10 @@ RUN apt-get update && apt-get install -y gconf-service \
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/chrome.list
 
-# copy the scrapy project
+# copy the Scrapy project
 COPY sreality/ scrapy/sreality/
 
-# cd to the scrapy project dir
+# cd to the Scrapy project dir
 WORKDIR /scrapy/sreality/sreality/
 
 # entrypoint - start scraping when the container starts

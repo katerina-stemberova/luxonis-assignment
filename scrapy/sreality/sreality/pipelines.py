@@ -4,8 +4,8 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-# useful for handling different item types with a single interface
 import psycopg2
+# useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
 
@@ -16,49 +16,63 @@ class SrealityPipeline:
 
 class SaveToPostgresPipeline:
     def __init__(self):
-        ## Connection Details
+        # connection details
         hostname = 'postgres'   # service name as defined in docker-compose.yml
         username = 'scrapy'
         password = 'scrapy'
         database = 'template1'
 
-        ## Create/Connect to database
-        self.connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+        # connect to the database
+        try:
+            self.connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
+        except Exception as e:
+            print("ERROR: unable to connect to the database!")
+            print(e)
         
-        ## Create cursor, used to execute commands
+        # create cursor, used to execute commands
         self.cur = self.connection.cursor()
         
-        ## Create the table if it doesn't exist
-        self.cur.execute("""
-        CREATE TABLE IF NOT EXISTS sreality (
-            id serial PRIMARY KEY, 
-            title text,
-            url VARCHAR(255)
-        )
-        """)
+        try:
+            # create the table if it doesn't exist
+            self.cur.execute("""
+            CREATE TABLE IF NOT EXISTS sreality (
+                id serial PRIMARY KEY, 
+                title text,
+                url VARCHAR(255)
+            )
+            """)
+        except Exception as e:
+            print("ERROR: unable to create 'sreality' table!")
+            print(e)
 
 
     def process_item(self, item, spider):
-        ## Define insert statement
-        self.cur.execute(""" INSERT INTO sreality (
-            title, 
-            url
-            ) values (
-                %s,
-                %s
-                )""", (
-            item["title"],
-            item["url"])
-        )
+        try:
+            # define an insert statement
+            self.cur.execute(""" INSERT INTO sreality (
+                title, 
+                url
+                ) values (
+                    %s,
+                    %s
+                    )""", (
+                item["title"],
+                item["url"])
+            )
 
-        ## Execute insert of data into database
-        self.connection.commit()
-        print("INFO: Inserted into DB:", item["title"], ",", item["url"])
+            # execute insert of data into the DB
+            self.connection.commit()
+            print("INFO: Inserted into DB:", item["title"], ",", item["url"])
+        
+        except Exception as e:
+            print("ERROR: inserting an item into the 'sreality' table failed!")
+            print(e)
+    
         return item
     
 
     def close_spider(self, spider):
-        ## Close cursor & connection to database 
+        # close cursor & connection to the DB 
         self.cur.close()
         self.connection.close()
         
